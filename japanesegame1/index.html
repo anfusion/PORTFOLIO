@@ -31,6 +31,10 @@
             background-color: lightgray;
             border: 2px dashed #000;
         }
+        .result-icon {
+            font-size: 20px;
+            margin-left: 10px;
+        }
     </style>
 </head>
 <body>
@@ -58,6 +62,7 @@
                 <span>と</span>
                 <div class="drop-zone"></div>
                 <span>が入っています。</span>
+                <span class="result-icon"></span>
             </div>
             <div class="question" data-answer="りんご,ジュース">
                 <span>スーパーで</span>
@@ -65,6 +70,7 @@
                 <span>や</span>
                 <div class="drop-zone"></div>
                 <span>を買いました。</span>
+                <span class="result-icon"></span>
             </div>
             <div class="question" data-answer="ソファ,いす">
                 <span>この部屋には</span>
@@ -72,6 +78,7 @@
                 <span>や</span>
                 <div class="drop-zone"></div>
                 <span>などがあります。</span>
+                <span class="result-icon"></span>
             </div>
             <div class="question" data-answer="かばん,ノート">
                 <span>机の上に</span>
@@ -79,6 +86,7 @@
                 <span>と</span>
                 <div class="drop-zone"></div>
                 <span>があります。</span>
+                <span class="result-icon"></span>
             </div>
         </div>
     </div>
@@ -115,9 +123,15 @@
             questions.forEach(question => {
                 let expectedAnswers = question.dataset.answer.split(',');
                 let userAnswers = Array.from(question.querySelectorAll('.drop-zone')).map(zone => zone.textContent);
+                let resultIcon = question.querySelector('.result-icon');
                 
                 if (JSON.stringify(expectedAnswers.sort()) === JSON.stringify(userAnswers.sort())) {
                     correctCount++;
+                    resultIcon.textContent = '✔️';
+                    resultIcon.style.color = 'green';
+                } else {
+                    resultIcon.textContent = '❌';
+                    resultIcon.style.color = 'red';
                 }
             });
             
