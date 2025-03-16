@@ -25,12 +25,19 @@
             border: 1px solid #000;
             cursor: grab;
         }
+        .draggable.used {
+            background-color: gray;
+            cursor: not-allowed;
+        }
         .drop-zone {
             padding: 10px;
             min-width: 100px;
             background-color: lightgray;
             border: 2px dashed #000;
             text-align: center;
+        }
+        .wrong-answer {
+            background-color: lightcoral;
         }
         .result-icon {
             font-size: 20px;
@@ -115,6 +122,8 @@
                 let draggedElement = document.getElementById(data);
                 zone.textContent = draggedElement.textContent;
                 zone.dataset.value = draggedElement.textContent;
+                draggedElement.classList.add('used');
+                draggedElement.draggable = false;
             });
         });
 
@@ -124,10 +133,20 @@
             
             questions.forEach(question => {
                 let expectedAnswers = question.dataset.answer.split(',');
-                let userAnswers = Array.from(question.querySelectorAll('.drop-zone')).map(zone => zone.dataset.value || "");
+                let userAnswers = Array.from(question.querySelectorAll('.drop-zone'));
                 let resultIcon = question.querySelector('.result-icon');
+                let correct = true;
                 
-                if (expectedAnswers.length === userAnswers.length && expectedAnswers.sort().join() === userAnswers.sort().join()) {
+                userAnswers.forEach(zone => {
+                    if (!expectedAnswers.includes(zone.dataset.value)) {
+                        zone.classList.add('wrong-answer');
+                        correct = false;
+                    } else {
+                        zone.classList.remove('wrong-answer');
+                    }
+                });
+                
+                if (correct && expectedAnswers.sort().join() === userAnswers.map(zone => zone.dataset.value).sort().join()) {
                     correctCount++;
                     resultIcon.textContent = '✔️';
                     resultIcon.style.color = 'green';
