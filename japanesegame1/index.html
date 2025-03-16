@@ -125,6 +125,18 @@
                 draggedElement.classList.add('used');
                 draggedElement.draggable = false;
             });
+            zone.addEventListener('click', (e) => {
+                if (zone.dataset.value) {
+                    let word = zone.dataset.value;
+                    let originalElement = [...draggables].find(el => el.textContent === word);
+                    if (originalElement) {
+                        originalElement.classList.remove('used');
+                        originalElement.draggable = true;
+                    }
+                    zone.textContent = '';
+                    delete zone.dataset.value;
+                }
+            });
         });
 
         function checkAnswers() {
