@@ -127,7 +127,7 @@
                 let userAnswers = Array.from(question.querySelectorAll('.drop-zone')).map(zone => zone.dataset.value || "");
                 let resultIcon = question.querySelector('.result-icon');
                 
-                if (expectedAnswers.length === userAnswers.length && expectedAnswers.every(val => userAnswers.includes(val))) {
+                if (expectedAnswers.length === userAnswers.length && expectedAnswers.sort().join() === userAnswers.sort().join()) {
                     correctCount++;
                     resultIcon.textContent = '✔️';
                     resultIcon.style.color = 'green';
