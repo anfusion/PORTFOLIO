@@ -30,6 +30,7 @@
             min-width: 100px;
             background-color: lightgray;
             border: 2px dashed #000;
+            text-align: center;
         }
         .result-icon {
             font-size: 20px;
@@ -126,7 +127,7 @@
                 let userAnswers = Array.from(question.querySelectorAll('.drop-zone')).map(zone => zone.dataset.value || "");
                 let resultIcon = question.querySelector('.result-icon');
                 
-                if (JSON.stringify(expectedAnswers) === JSON.stringify(userAnswers)) {
+                if (expectedAnswers.every((val, index) => val === userAnswers[index])) {
                     correctCount++;
                     resultIcon.textContent = '✔️';
                     resultIcon.style.color = 'green';
