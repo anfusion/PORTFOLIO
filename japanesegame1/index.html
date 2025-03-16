@@ -58,33 +58,33 @@
         <div id="questions">
             <div class="question" data-answer="ごはん,さかな">
                 <span>私の弁当には</span>
-                <div class="drop-zone"></div>
+                <div class="drop-zone" data-index="0"></div>
                 <span>と</span>
-                <div class="drop-zone"></div>
+                <div class="drop-zone" data-index="1"></div>
                 <span>が入っています。</span>
                 <span class="result-icon"></span>
             </div>
             <div class="question" data-answer="りんご,ジュース">
                 <span>スーパーで</span>
-                <div class="drop-zone"></div>
+                <div class="drop-zone" data-index="0"></div>
                 <span>や</span>
-                <div class="drop-zone"></div>
+                <div class="drop-zone" data-index="1"></div>
                 <span>を買いました。</span>
                 <span class="result-icon"></span>
             </div>
             <div class="question" data-answer="ソファ,いす">
                 <span>この部屋には</span>
-                <div class="drop-zone"></div>
+                <div class="drop-zone" data-index="0"></div>
                 <span>や</span>
-                <div class="drop-zone"></div>
+                <div class="drop-zone" data-index="1"></div>
                 <span>などがあります。</span>
                 <span class="result-icon"></span>
             </div>
             <div class="question" data-answer="かばん,ノート">
                 <span>机の上に</span>
-                <div class="drop-zone"></div>
+                <div class="drop-zone" data-index="0"></div>
                 <span>と</span>
-                <div class="drop-zone"></div>
+                <div class="drop-zone" data-index="1"></div>
                 <span>があります。</span>
                 <span class="result-icon"></span>
             </div>
@@ -113,6 +113,7 @@
                 let data = e.dataTransfer.getData('text');
                 let draggedElement = document.getElementById(data);
                 zone.textContent = draggedElement.textContent;
+                zone.dataset.value = draggedElement.textContent;
             });
         });
 
@@ -122,10 +123,10 @@
             
             questions.forEach(question => {
                 let expectedAnswers = question.dataset.answer.split(',');
-                let userAnswers = Array.from(question.querySelectorAll('.drop-zone')).map(zone => zone.textContent);
+                let userAnswers = Array.from(question.querySelectorAll('.drop-zone')).map(zone => zone.dataset.value || "");
                 let resultIcon = question.querySelector('.result-icon');
                 
-                if (JSON.stringify(expectedAnswers.sort()) === JSON.stringify(userAnswers.sort())) {
+                if (JSON.stringify(expectedAnswers) === JSON.stringify(userAnswers)) {
                     correctCount++;
                     resultIcon.textContent = '✔️';
                     resultIcon.style.color = 'green';
