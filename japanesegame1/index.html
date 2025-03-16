@@ -44,10 +44,10 @@
     
     <div class="container">
         <div class="word-bank">
-            <div class="draggable" draggable="true" id="rice">にく</div>
-            <div class="draggable" draggable="true" id="fish">さかな</div>
-            <div class="draggable" draggable="true" id="apple">りんご</div>
-            <div class="draggable" draggable="true" id="juice">ジュース</div>
+            <div class="draggable" draggable="true" id="rice">ねこ</div>
+            <div class="draggable" draggable="true" id="fish">いぬ</div>
+            <div class="draggable" draggable="true" id="apple">にく</div>
+            <div class="draggable" draggable="true" id="juice">さかな</div>
             <div class="draggable" draggable="true" id="dirty">汚い</div>
             <div class="draggable" draggable="true" id="soft">やわらかい</div>
             <div class="draggable" draggable="true" id="sofa">ソファ</div>
@@ -57,20 +57,20 @@
         </div>
 
         <div id="questions">
-            <div class="question" data-answer="にく,さかな">
-                <span>私の弁当には</span>
+            <div class="question" data-answer="ごはん,さかな">
+                <span>私のすきなどうぶつは</span>
                 <div class="drop-zone" data-index="0"></div>
                 <span>と</span>
                 <div class="drop-zone" data-index="1"></div>
-                <span>が入っています。</span>
+                <span>です。</span>
                 <span class="result-icon"></span>
             </div>
-            <div class="question" data-answer="かばん,ノート">
-                <span>学校に</span>
+            <div class="question" data-answer="にく,さかな">
+                <span>スーパーで</span>
                 <div class="drop-zone" data-index="0"></div>
-                <span>と</span>
+                <span>や</span>
                 <div class="drop-zone" data-index="1"></div>
-                <span>を持って行きます。</span>
+                <span>を買いました。</span>
                 <span class="result-icon"></span>
             </div>
             <div class="question" data-answer="ソファ,いす">
@@ -81,12 +81,12 @@
                 <span>などがあります。</span>
                 <span class="result-icon"></span>
             </div>
-            <div class="question" data-answer="りんご,ジュース">
-                <span>スーパーで</span>
+            <div class="question" data-answer="かばん,ノート">
+                <span>学校に</span>
                 <div class="drop-zone" data-index="0"></div>
-                <span>や</span>
+                <span>と</span>
                 <div class="drop-zone" data-index="1"></div>
-                <span>を買いました。</span>
+                <span>を持って行きます。</span>
                 <span class="result-icon"></span>
             </div>
         </div>
@@ -127,7 +127,7 @@
                 let userAnswers = Array.from(question.querySelectorAll('.drop-zone')).map(zone => zone.dataset.value || "");
                 let resultIcon = question.querySelector('.result-icon');
                 
-                if (expectedAnswers.length === userAnswers.length && expectedAnswers.every(val => userAnswers.includes(val))) {
+                if (expectedAnswers.every((val, index) => val === userAnswers[index])) {
                     correctCount++;
                     resultIcon.textContent = '✔️';
                     resultIcon.style.color = 'green';
