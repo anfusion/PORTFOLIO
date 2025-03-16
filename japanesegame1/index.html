@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Japanese と and や Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .container {
+            margin: 20px auto;
+            width: 80%;
+        }
+        .word-bank, .sentence-area {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .draggable {
+            padding: 10px;
+            background-color: lightblue;
+            border: 1px solid #000;
+            cursor: grab;
+        }
+        .drop-zone {
+            padding: 10px;
+            min-width: 100px;
+            background-color: lightgray;
+            border: 2px dashed #000;
+        }
+    </style>
+</head>
+<body>
+    <h1>Practice と and や with Home Vocabulary</h1>
+    <p>Drag the words into the correct sentence structure using と or や.</p>
+    
+    <div class="container">
+        <div class="word-bank">
+            <div class="draggable" draggable="true" id="bed">ベッド</div>
+            <div class="draggable" draggable="true" id="table">テーブル</div>
+            <div class="draggable" draggable="true" id="sofa">ソファ</div>
+            <div class="draggable" draggable="true" id="chair">いす</div>
+        </div>
+
+        <div class="sentence-area">
+            <div class="drop-zone" id="drop1"></div>
+            <span>と</span>
+            <div class="drop-zone" id="drop2"></div>
+            <span>が あります。</span>
+        </div>
+    </div>
+
+    <button onclick="checkAnswer()">Check Answer</button>
+    <p id="result"></p>
+
+    <script>
+        const draggables = document.querySelectorAll('.draggable');
+        const dropZones = document.querySelectorAll('.drop-zone');
+
+        draggables.forEach(draggable => {
+            draggable.addEventListener('dragstart', (e) => {
+                e.dataTransfer.setData('text', e.target.id);
+            });
+        });
+
+        dropZones.forEach(zone => {
+            zone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+            });
+            zone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                let data = e.dataTransfer.getData('text');
+                let draggedElement = document.getElementById(data);
+                zone.textContent = draggedElement.textContent;
+            });
+        });
+
+        function checkAnswer() {
+            let firstWord = document.getElementById('drop1').textContent;
+            let secondWord = document.getElementById('drop2').textContent;
+            if ((firstWord === "ベッド" && secondWord === "テーブル") || (firstWord === "ソファ" && secondWord === "いす")) {
+                document.getElementById('result').textContent = "Correct! Good job!";
+            } else {
+                document.getElementById('result').textContent = "Try again!";
+            }
+        }
+    </script>
+</body>
+</html>
