@@ -63,7 +63,7 @@
         <h1>Practice と and や in Real-Life Contexts</h1>
         <p>Drag the words into the correct sentence structure using と or や. Be careful—some words do not fit!</p>
         
-        <div class="word-bank">
+        <div class="word-bank" id="word-bank">
             <div class="draggable" draggable="true" id="cat">ねこ</div>
             <div class="draggable" draggable="true" id="dog">いぬ</div>
             <div class="draggable" draggable="true" id="meat">にく</div>
@@ -128,5 +128,29 @@
     
     <button onclick="checkAnswers()">Check Answers</button>
     <p id="result"></p>
+
+    <script>
+        document.querySelectorAll('.draggable').forEach(item => {
+            item.addEventListener('dragstart', event => {
+                event.dataTransfer.setData('text', event.target.id);
+            });
+        });
+
+        document.querySelectorAll('.drop-zone').forEach(zone => {
+            zone.addEventListener('dragover', event => {
+                event.preventDefault();
+            });
+            zone.addEventListener('drop', event => {
+                event.preventDefault();
+                let data = event.dataTransfer.getData('text');
+                let draggedItem = document.getElementById(data);
+                if (!zone.hasChildNodes()) {
+                    zone.appendChild(draggedItem);
+                    draggedItem.classList.add('used');
+                    draggedItem.draggable = false;
+                }
+            });
+        });
+    </script>
 </body>
 </html>
