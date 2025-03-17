@@ -8,10 +8,23 @@
         body {
             font-family: Arial, sans-serif;
             text-align: center;
+            display: flex;
+            justify-content: space-between;
         }
         .container {
             margin: 20px auto;
-            width: 80%;
+            width: 70%;
+        }
+        .sidebar {
+            width: 25%;
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-left: 2px solid #ccc;
+            position: fixed;
+            right: 0;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
         }
         .word-bank, .question {
             display: flex;
@@ -46,10 +59,10 @@
     </style>
 </head>
 <body>
-    <h1>Practice と and や in Real-Life Contexts</h1>
-    <p>Drag the words into the correct sentence structure using と or や. Be careful—some words do not fit!</p>
-    
     <div class="container">
+        <h1>Practice と and や in Real-Life Contexts</h1>
+        <p>Drag the words into the correct sentence structure using と or や. Be careful—some words do not fit!</p>
+        
         <div class="word-bank">
             <div class="draggable" draggable="true" id="cat">ねこ</div>
             <div class="draggable" draggable="true" id="dog">いぬ</div>
@@ -98,78 +111,22 @@
             </div>
         </div>
     </div>
-
+    
+    <div class="sidebar">
+        <h2>Vocabulary</h2>
+        <p>ねこ - Cat</p>
+        <p>いぬ - Dog</p>
+        <p>にく - Meat</p>
+        <p>さかな - Fish</p>
+        <p>汚い - Dirty</p>
+        <p>やわらかい - Soft</p>
+        <p>ソファ - Sofa</p>
+        <p>いす - Chair</p>
+        <p>かばん - Bag</p>
+        <p>ノート - Notebook</p>
+    </div>
+    
     <button onclick="checkAnswers()">Check Answers</button>
     <p id="result"></p>
-
-    <script>
-        const draggables = document.querySelectorAll('.draggable');
-        const dropZones = document.querySelectorAll('.drop-zone');
-
-        draggables.forEach(draggable => {
-            draggable.addEventListener('dragstart', (e) => {
-                e.dataTransfer.setData('text', e.target.id);
-            });
-        });
-
-        dropZones.forEach(zone => {
-            zone.addEventListener('dragover', (e) => {
-                e.preventDefault();
-            });
-            zone.addEventListener('drop', (e) => {
-                e.preventDefault();
-                let data = e.dataTransfer.getData('text');
-                let draggedElement = document.getElementById(data);
-                zone.textContent = draggedElement.textContent;
-                zone.dataset.value = draggedElement.textContent;
-                draggedElement.classList.add('used');
-                draggedElement.draggable = false;
-            });
-            zone.addEventListener('click', (e) => {
-                if (zone.dataset.value) {
-                    let word = zone.dataset.value;
-                    let originalElement = [...draggables].find(el => el.textContent === word);
-                    if (originalElement) {
-                        originalElement.classList.remove('used');
-                        originalElement.draggable = true;
-                    }
-                    zone.textContent = '';
-                    delete zone.dataset.value;
-                }
-            });
-        });
-
-        function checkAnswers() {
-            let questions = document.querySelectorAll('.question');
-            let correctCount = 0;
-            
-            questions.forEach(question => {
-                let expectedAnswers = question.dataset.answer.split(',');
-                let userAnswers = Array.from(question.querySelectorAll('.drop-zone'));
-                let resultIcon = question.querySelector('.result-icon');
-                let correct = true;
-                
-                userAnswers.forEach(zone => {
-                    if (!expectedAnswers.includes(zone.dataset.value)) {
-                        zone.classList.add('wrong-answer');
-                        correct = false;
-                    } else {
-                        zone.classList.remove('wrong-answer');
-                    }
-                });
-                
-                if (correct && expectedAnswers.sort().join() === userAnswers.map(zone => zone.dataset.value).sort().join()) {
-                    correctCount++;
-                    resultIcon.textContent = '✔️';
-                    resultIcon.style.color = 'green';
-                } else {
-                    resultIcon.textContent = '❌';
-                    resultIcon.style.color = 'red';
-                }
-            });
-            
-            document.getElementById('result').textContent = `You got ${correctCount} out of ${questions.length} correct!`;
-        }
-    </script>
 </body>
 </html>
